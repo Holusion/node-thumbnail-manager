@@ -12,7 +12,7 @@ It's like the [xdg-thumbnails](https://www.npmjs.com/package/xdg-thumbnails) mod
 
 **Cons** :
 - Generic thumbnailers like [tumbler](https://github.com/nemomobile/tumbler) don't provide an interface while they sometimes provide the thumbnailing dbus service.
-- no built in Enqueue / Dequeue capabilities.
+- no built in Enqueue / Dequeue capabilities. No load balancing. Try to query a hundred thumbnails at a time...
 
 This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps.
 
@@ -40,3 +40,8 @@ To declare a new mime type, you should use the [shared mime info](http://www.fre
 
 - **cleanup**. The specification doesn't recommend a precise clean [method](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html#DELETE).
   - in every case it's usefull to have a clean() method which will be called by any mean.
+- load balancing
+  - Possibly activated via an option.
+  - Prevent more than *x* thumbnails from being created at the same time. *x* can be the number of CPU cores or an explicit option.
+- prevent zombie child processes
+  - If for some reason a thumbnailer doesn't exit, we should kill it after a reasonable amount of time.
