@@ -1,0 +1,26 @@
+{
+  "name": "thumbnail-manager",
+  "version": "0.0.1",
+  "main": "lib/index.js",
+  "repository": "https://github.com/Holusion/node-thumbnail-manager",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "xdg",
+    "Mime",
+    "freedesktop",
+    "Thumbnailer",
+    "thumbs"
+  ],
+  "dependencies": {
+    "xdg-apps": "^0.0.2",
+    "xdg-basedir": "^2.0.0",
+    "png-chunks-extract": "^1.0.0",
+    "png-chunk-text": "^1.0.0"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  }
+}
