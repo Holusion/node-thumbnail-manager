@@ -13,7 +13,7 @@ describe("Thumbnailer",function(){
   it("escape shell command",function(done){
     var thumbnailer = new Thumbnailer(__dirname);
     thumbnailer.worker.start = function(command){
-      expect(command).to.equal('foo \\"my path\\"')
+      expect(command).to.equal('foo "my path"')
       done();
       return Promise.resolve("hello");
     }
