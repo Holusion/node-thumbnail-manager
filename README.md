@@ -45,3 +45,6 @@ To declare a new mime type, you should use the [shared mime info](http://www.fre
   - Prevent more than *x* thumbnails from being created at the same time. *x* can be the number of CPU cores or an explicit option.
 - prevent zombie child processes
   - If for some reason a thumbnailer doesn't exit, we should kill it after a reasonable amount of time.
+- Use the ```fail/``` folder.
+  - Register failed attempts in ```fail/<thumbnailer_name>/<hash>.png```
+  - Check in this directory if the thumbnail already failed before.
