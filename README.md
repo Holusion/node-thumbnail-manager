@@ -1,5 +1,9 @@
 # node-thumbnail-manager
+
 A Thumbnail Manager in native javascript
+
+[![Build Status](https://travis-ci.org/Holusion/node-thumbnail-manager.svg?branch=master)](https://travis-ci.org/Holusion/node-thumbnail-manager)
+
 
 using freedesktop's [Thumbnail Managing Standard](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html).
 
