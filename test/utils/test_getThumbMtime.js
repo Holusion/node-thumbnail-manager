@@ -6,7 +6,7 @@ describe("getThumbMtime",function(){
   it("when present",function(done){
     fs.readFile(__dirname+"/../fixtures/thumbnails/normal/02f03513839ac37ce95086b838b50fef.png",function(err,data){
       expect(err).to.be.null;
-      expect(getThumbMtime(data)).to.equal("1418500379");
+      expect(getThumbMtime(data).getTime()).to.equal(new Date(1418500379000).getTime());
       done();
     })
 
