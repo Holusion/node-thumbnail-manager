@@ -22,6 +22,25 @@ This module is likely the best choice if you don't really care about existing ge
 
 It leverages the ```Thumb::MTime``` key (like defined in the [PNG spec](http://www.w3.org/TR/PNG/#C.tEXt)) to define if the thumbnail is valid.
 
+## Usage
+
+    var Thumbnailer = require("thumbnail-manager");
+    var thumbnailer = new Thumbnailer();
+    thumbnailer.request("/absolute/path/to/file",function(err,thumb_path){
+      if(err){
+        //thumbnail failed
+      }
+      //Do something with the image located at "thumb_path".
+    });
+
+Can be used with es-6 Promises :
+
+    thumbnailer.request("/absolute/path/to/file").then(function(thumb_path){
+      //Do something with the thumbnail
+    }).catch(function(e){
+      //There was an error.
+    });
+
 ## Writing a thumbnailer
 
 Possible informations a thumbnailer could be given :
