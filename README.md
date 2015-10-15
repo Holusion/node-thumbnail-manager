@@ -2,7 +2,7 @@
 
 A Thumbnail Manager in native javascript
 
-[![Build Status](https://travis-ci.org/Holusion/node-thumbnail-manager.svg?branch=master)](https://travis-ci.org/Holusion/node-thumbnail-manager)
+[![Build Status](https://travis-ci.org/Holusion/node-thumbnail-manager.svg?branch=master)](https://travis-ci.org/Holusion/node-thumbnail-manager)[![Test Coverage](https://codeclimate.com/github/Holusion/node-thumbnail-manager/badges/coverage.svg)](https://codeclimate.com/github/Holusion/node-thumbnail-manager/coverage)
 
 
 using freedesktop's [Thumbnail Managing Standard](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html).
