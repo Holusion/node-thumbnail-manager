@@ -41,4 +41,24 @@ describe("files",function(){
       }).catch(done);
     })
   });
+  describe("list",function(){
+    var valid = [path.resolve(__dirname,"../fixtures/thumbnails/normal","02f03513839ac37ce95086b838b50fef.png")];
+    var invalid = [path.resolve(__dirname,"../fixtures/thumbnails/normal","7ff46454d660a30a0190536d678a6ea6.png")];
+    it("invalid thumbnails",function(done){
+      var mfiles = files;
+      mfiles.validate = function(source,thumb){
+        return new Promise(function(resolve, reject) {
+          if(valid.indexOf(thumb)!=-1){
+            resolve(true);
+          }else{
+            resolve(false);
+          }
+        });
+      }
+      mfiles.list(path.resolve(__dirname,"../fixtures/thumbnails/normal")).then(function(files){
+        expect(files).to.deep.equal(valid);
+        done();
+      }).catch(done);
+    })
+  });
 })
