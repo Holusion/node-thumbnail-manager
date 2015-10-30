@@ -1,23 +1,19 @@
 var thumbDirs = require("../../lib/utils/thumbDirs");
-var exec = require("child_process").exec;
 var path = require("path");
 var fs = require('fs');
+var tmp = require("tmp");
 describe("thumbDirs.create",function(){
-  var tmp;
+  var dir;
   before(function(done){
-    exec("mktemp -d",{encoding:"utf8"},function(error, stdout, stderr){
-      tmp = stdout.replace("\n","");
-      done(error);
-    });
-  });
-  after(function(done){
-    exec("rm -rf "+tmp,{encoding:"utf8"},function(error, stdout, stderr){
-      done(error);
+    tmp.dir(function(err,dirpath){
+      dir = dirpath;
+      console.log("dir : ",dir);
+      done(err);
     });
   });
   it("create base directories",function(done){
-    thumbDirs.create(tmp).then(function(dir){
-      expect(dir).to.equal(tmp);
+    thumbDirs.create(dir).then(function(created_dir){
+      expect(created_dir).to.equal(dir);
       var dirs = ["normal","large","fail"].map(function(size){
         return path.join(dir,size);
       }).map(function(dirpath){
@@ -28,10 +24,10 @@ describe("thumbDirs.create",function(){
             resolve();
           });
         });
-      })
-      Promise.all(dirs).then(function(){
-        done();
-      }).catch(done);
+      });
+      return Promise.all(dirs)
+    }).then(function(){
+      done();
     }).catch(done);
   });
 });

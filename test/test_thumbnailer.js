@@ -1,8 +1,15 @@
 var Thumbnailer = require("../lib");
-
+var tmp = require("tmp");
 describe("Thumbnailer",function(){
+  var dir;
+  before(function(done){
+    tmp.dir(function(err,dirpath){
+      dir = dirpath;
+      done(err);
+    })
+  });
   it("create a thumbnail if it doesn't exists",function(done){
-    var thumbnailer = new Thumbnailer(__dirname);
+    var thumbnailer = new Thumbnailer(dir);
     thumbnailer.create = function(file,size){
       expect(file).to.equal(__dirname+"/common.js");
       expect(size).to.equal(128);
@@ -11,7 +18,7 @@ describe("Thumbnailer",function(){
     thumbnailer.request(__dirname+"/common.js",128).catch(done); //We're sure a thumbnail for this doesn't exists in this directory...
   });
   it("escape shell command",function(done){
-    var thumbnailer = new Thumbnailer(__dirname);
+    var thumbnailer = new Thumbnailer(dir);
     thumbnailer.worker.start = function(command){
       expect(command).to.equal('foo "my path"')
       done();
