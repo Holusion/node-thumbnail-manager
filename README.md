@@ -49,7 +49,8 @@ no cleaning is done by default. The reason is cleaning is a time consuming proce
 
 - Periodicity
   - Clean everything on start, then keep unused thumbnails until next restart
-  - Periodically clean thumbnails, limiting the amount of time spent doing it
+  - Periodically clean thumbnails
+  - limit the amount of time spent doing cleanup on each start (if a thousand files have changed...)
 - Restrictivity
   - keep thumbnails that doesn't have a valid URI key
   - delete oldest / least used thumbnails
