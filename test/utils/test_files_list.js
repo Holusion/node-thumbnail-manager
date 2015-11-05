@@ -19,7 +19,7 @@ describe("files.list",function(){
       list:files.list
     }
     mfiles.list(path.resolve(__dirname,"../fixtures/thumbnails/normal")).then(function(files){
-      expect(files).to.deep.equal(valid);
+      expect(files).to.deep.equal(invalid);
       done();
     }).catch(done);
   })

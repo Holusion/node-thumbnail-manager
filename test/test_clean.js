@@ -21,7 +21,11 @@ describe("Thumbnailer.clean",function(){
   });
   it("remove files",function(done){
     thumbnailer.clean(null,function(err){
-      done(err);
+      expect(err).to.not.exist;
+      fs.exists(path.join(dir,"normal/02f03513839ac37ce95086b838b50fef.png"),function(exist){
+        expect(exist).to.be.false;
+        done();
+      })
     })
   })
 });

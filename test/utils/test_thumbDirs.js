@@ -7,7 +7,6 @@ describe("thumbDirs.create",function(){
   before(function(done){
     tmp.dir(function(err,dirpath){
       dir = dirpath;
-      console.log("dir : ",dir);
       done(err);
     });
   });
