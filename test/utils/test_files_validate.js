@@ -37,14 +37,12 @@ describe("files.validate",function(){
         }
       }
     })
-    it("throw an error if source is missing",function(done){
+    it("invalidate if source is missing",function(done){
       mfiles.validate( "file:///imaginary/path"
                     , path.resolve(__dirname,"../fixtures/thumbnails/normal/7ff46454d660a30a0190536d678a6ea6.png")).then(function(valid){
-        done("sould not be called");
-      }).catch(function(e){
-        expect(e).to.deep.equal(new Error("ENOENT: no such file or directory, stat '/imaginary/path'"));
+        expect(valid).to.be.false;
         done();
-      })
+      }).catch(done);
     });
   });
 });
