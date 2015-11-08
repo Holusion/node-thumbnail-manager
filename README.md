@@ -15,7 +15,7 @@ It's like the [xdg-thumbnails](https://www.npmjs.com/package/xdg-thumbnails) mod
 - it's the chosen way of doing things in Gnome 3 so it should spread.
 
 **Cons** :
-- Generic thumbnailers like [tumbler](https://github.com/nemomobile/tumbler) don't provide an interface while they sometimes provide the thumbnailing dbus service.
+- Generic thumbnailers like [tumbler](https://github.com/nemomobile/tumbler) don't provide a `.thumbnailer` interface while they sometimes provide the thumbnailing dbus service.
 - no built in Enqueue / Dequeue capabilities. No load balancing. Try to query a hundred thumbnails at a time...
 
 This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps.
@@ -80,17 +80,30 @@ These options can be given in any order using a **Thumbnailer Entry** block :
     Exec=your-thumbnailer %i %o %s
     MimeType=application/x-yourType;
 
+Placed in `/usr/share/thumbnailers/your_thumbnailer_name.thumbnailer`
+
 To declare a new mime type, you should use the [shared mime info](http://www.freedesktop.org/wiki/Specifications/shared-mime-info-spec/) specification.
+
+### Basic implementation
 
 Simplest thing is an image thumbnailer using imagemagick :
 
-    convert -background black -resize $3x$3 "$1" "$2"
+    #!/bin/sh
+    MTIME=$(stat -c "%y" "$1")
+    convert -background black -resize $3x$3 "$1" -set Thumb::URI "$1" -set Thumb::MTime "$MTIME" "$2"
 
-Which will be called with :
+Which will be placed in /usr/local/bin and called with :
 
-    Exec=/usr/bin/image-thumbnbailer %i %o %s
+    Exec=/usr/local/bin/image-thumbnbailer %i %o %s
 
 More command line tags available on the Gnome [Spec](https://tecnocode.co.uk/2013/10/21/writing-a-gnome-thumbnailer/).
+
+### Better implementation
+
+Implementing the `Thumb::URI` and `Thumb::MTime` keys is a required minimum. Better implementations could use the **fail** mechanism to speed up failure.
+
+For a thumbnail request to `$HOME/.cache/thumbnails/normal/<md5_hash>.png`, one could write an empty png in `$HOME/.cache/thumbnails/fail/<thumbnailer>-<version>/<md5_hash>.png` to register a failure.
+
 
 ## TODO
 
@@ -101,6 +114,6 @@ More command line tags available on the Gnome [Spec](https://tecnocode.co.uk/201
   - Prevent more than *x* thumbnails from being created at the same time. *x* can be the number of CPU cores or an explicit option.
 - prevent zombie child processes
   - If for some reason a thumbnailer doesn't exit, we should kill it after a reasonable amount of time.
-- **Use the ```fail/``` folder**.
-  - Register failed attempts in ```fail/<thumbnailer_name>/<hash>.png```
-  - Check in this directory if the thumbnail already failed before.
+- **fail**. The specification advise to povide a `fail/` directory to allow implementors to register a thumbnail that could not be created.
+  - It's unclear whether the manager should first check for previous failure or just leave the thumbnailer with the responsibility to do it.
+  - Should the manager have to verify failed thumbnails, we don't have a recommended mechanism to verify the generator's version to know about an update which might have fixed it.
