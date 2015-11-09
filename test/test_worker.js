@@ -2,7 +2,7 @@ var Worker = require("../lib/Worker");
 
 describe("Worker",function(){
   beforeEach(function(){
-    this.worker = new Worker();
+    this.worker = new Worker({threads:2,timeout:1000});
   });
   it("Try to process queue",function(done){
     this.worker.exec = function(line,callback){

@@ -16,7 +16,6 @@ It's like the [xdg-thumbnails](https://www.npmjs.com/package/xdg-thumbnails) mod
 
 **Cons** :
 - Generic thumbnailers like [tumbler](https://github.com/nemomobile/tumbler) don't provide a `.thumbnailer` interface while they sometimes provide the thumbnailing dbus service.
-- no built in Enqueue / Dequeue capabilities. No load balancing. Try to query a hundred thumbnails at a time...
 
 This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps.
 
@@ -64,6 +63,16 @@ The module provide a basic `clean` method that doesn't offer this level of tunin
     });
 
 Currently only clean outdated thumbnails. The option object will later allow to choose which thumbnails should be kept.
+
+### Tuning
+
+No options are required, but one can tune the manager by providing an "option" object with the following arguments :
+
+    {
+      dir:"$HOME/.cache/thumbnails", //destination dir, replacing XDG's default,
+      timeout: 5000, //thumbnailer max time before it's killed. in milliseconds.
+      threads: 2 //Max allowed concurrent builds.
+    }
 
 ## Writing a thumbnailer
 
