@@ -12,7 +12,7 @@ No background service, no complex concurrency checks : we just behave according 
 
 The only downside here is we need spec-compliant thumbnailers, while most existing softwares are just full featured services trying to convert anything, integrated into larger projects (see : nautilus).
 
-This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps. See [Writing a thumbnailer](writing-a-thumbnailer).
+This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps. See [Writing a thumbnailer](#writing-a-thumbnailer).
 
 
 It leverages the ```Thumb::MTime``` key (like defined in the [PNG spec](http://www.w3.org/TR/PNG/#C.tEXt)) to define if the thumbnail is valid.
