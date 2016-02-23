@@ -4,20 +4,16 @@ A Thumbnail Manager in native javascript
 
 [![Build Status](https://travis-ci.org/Holusion/node-thumbnail-manager.svg?branch=master)](https://travis-ci.org/Holusion/node-thumbnail-manager)[![Test Coverage](https://codeclimate.com/github/Holusion/node-thumbnail-manager/badges/coverage.svg)](https://codeclimate.com/github/Holusion/node-thumbnail-manager/coverage)
 
+**thumbnail-manager** is a simple yet extensible solution to create and manage thumbnails using freedesktop's [Thumbnail Managing Standard](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html).
 
-using freedesktop's [Thumbnail Managing Standard](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html).
+It's like the [xdg-thumbnails](https://www.npmjs.com/package/xdg-thumbnails) module but with no native dependencies (looking at you, dbus!). Even better : it's totally compatible with any *freedesktop compliant* solution - or let me know if it's not.
 
-It's like the [xdg-thumbnails](https://www.npmjs.com/package/xdg-thumbnails) module but without dbus.
+No background service, no complex concurrency checks : we just behave according to the spec and everything is gonna be OK.
 
-**Pros** :
-- You don't need any additional service except some freedesktop compliant thumbnailers
-- Your thumbnailers can be dead simple without dbus.
-- it's the chosen way of doing things in Gnome 3 so it should spread.
+The only downside here is we need spec-compliant thumbnailers, while most existing softwares are just full featured services trying to convert anything, integrated into larger projects (see : nautilus).
 
-**Cons** :
-- Generic thumbnailers like [tumbler](https://github.com/nemomobile/tumbler) don't provide a `.thumbnailer` interface while they sometimes provide the thumbnailing dbus service.
+This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps. See [Writing a thumbnailer](writing-a-thumbnailer).
 
-This module is likely the best choice if you don't really care about existing generic thumbnailers but want to install and choose your own -simple as possible- thumbnailing apps.
 
 It leverages the ```Thumb::MTime``` key (like defined in the [PNG spec](http://www.w3.org/TR/PNG/#C.tEXt)) to define if the thumbnail is valid.
 
@@ -44,27 +40,16 @@ Can be used with es-6 Promises :
 
 ### Clean thumbnails
 
-no cleaning is done by default. The reason is cleaning is a time consuming process you might want to customize :
 
-- Periodicity
-  - Clean everything on start, then keep unused thumbnails until next restart
-  - Periodically clean thumbnails
-  - limit the amount of time spent doing cleanup on each start (if a thousand files have changed...)
-- Restrictivity
-  - keep thumbnails that doesn't have a valid URI key
-  - delete oldest / least used thumbnails
-    - Based on time since last access
-    - Based on a max disk usage we want to respect
-
-The module provide a basic `clean` method that doesn't offer this level of tuning. Help on improving this based on real use cases is welcomed.
+The module provide a basic `clean` method that doesn't offer a great level of tuning. Help on improving this based on real use cases is welcomed.
 
     thumbnailer.clean({},function(err){
       //Manage error
     });
 
-Currently only clean outdated thumbnails. The option object will later allow to choose which thumbnails should be kept.
+Currently only clean updated/deleted files thumbnails. The option object will later allow to choose which thumbnails should be kept.
 
-### Tuning
+### Options
 
 No options are required, but one can tune the manager by providing an "option" object with the following arguments :
 
