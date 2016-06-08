@@ -14,7 +14,7 @@
     "thumbs"
   ],
   "dependencies": {
-    "xdg-apps": "^0.0.2",
+    "xdg-apps": "^0.1.2",
     "xdg-basedir": "^2.0.0",
     "png-chunks-extract": "^1.0.0",
     "png-chunk-text": "^1.0.0",
