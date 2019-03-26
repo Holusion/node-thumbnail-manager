@@ -1,20 +1,20 @@
 var thumbDirs = require("../../lib/utils/thumbDirs");
 var path = require("path");
 var fs = require('fs');
-var tmp = require("tmp");
+var tmp = require("tmp-promise");
 describe("thumbDirs.create",function(){
   var dir;
-  before(function(done){
-    tmp.dir(function(err,dirpath){
-      dir = dirpath;
-      done(err);
-    });
+  before(async function(){
+    dir = await tmp.dir({unsafeCleanup:true});
   });
+  after(function(){
+    dir.cleanup();
+  })
   it("create base directories",function(done){
-    thumbDirs.create(dir).then(function(created_dir){
-      expect(created_dir).to.equal(dir);
+    thumbDirs.create(dir.path).then(function(created_dir){
+      expect(created_dir).to.equal(dir.path);
       var dirs = ["normal","large","fail"].map(function(size){
-        return path.join(dir,size);
+        return path.join(dir.path,size);
       }).map(function(dirpath){
         return new Promise(function(resolve, reject) {
           fs.stat(dirpath,function(err,stat){

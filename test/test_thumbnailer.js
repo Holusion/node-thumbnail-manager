@@ -1,15 +1,16 @@
 var Thumbnailer = require("../lib");
-var tmp = require("tmp");
+var tmp = require("tmp-promise");
 describe("Thumbnailer",function(){
   var dir;
-  before(function(done){
-    tmp.dir(function(err,dirpath){
-      dir = dirpath;
-      done(err);
-    })
+  before(async function(){
+    dir = await tmp.dir({unsafeCleanup:true});
   });
+  after(function(){
+    dir.cleanup();
+  })
+
   it("create a thumbnail if it doesn't exists",function(){
-    var thumbnailer = new Thumbnailer(dir);
+    var thumbnailer = new Thumbnailer(dir.path);
     thumbnailer.create = function(file,size){
       expect(file).to.equal(__dirname+"/common.js");
       expect(size).to.equal(128);

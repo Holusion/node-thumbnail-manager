@@ -1,31 +1,45 @@
+'use strict';
 var Thumbnailer = require("../lib");
-var tmp = require("tmp");
+var tmp = require("tmp-promise");
 var fs = require("fs");
 var path = require("path");
 
-describe("Thumbnailer.clean",function(){
-  var thumbnailer,dir;
-  before(function(done){
-    tmp.dir(function(err,dirpath){
-      dir = dirpath;
-      expect(err).to.be.null;
-      fs.mkdir(path.join(dir,"normal"),function(err){
-        expect(err).to.be.null;
-        fs.link(path.join(__dirname,"fixtures/thumbnails/normal/02f03513839ac37ce95086b838b50fef.png"),path.join(dir,"normal/02f03513839ac37ce95086b838b50fef.png"),function(err){
-          thumbnailer = new Thumbnailer(dirpath);
-          done(err);
-        });
-      })
+const {promisify} = require("util");
 
-    });
+const link = promisify(fs.link);
+const mkdir = promisify(fs.mkdir);
+const exists = promisify(fs.exists);
+describe("Thumbnailer.clean", function(){
+  beforeEach( async function() {
+    this.tmpdir = await tmp.dir({unsafeCleanup:true});
+    await mkdir(path.join(this.tmpdir.path,"normal"));
+
+    await link(path.join(__dirname,"fixtures/thumbnails/normal/02f03513839ac37ce95086b838b50fef.png"),path.join(this.tmpdir.path,"normal/02f03513839ac37ce95086b838b50fef.png"));
+    await link(path.join(__dirname,"fixtures/thumbnails/normal/7ff46454d660a30a0190536d678a6ea6.png"),path.join(this.tmpdir.path,"normal/7ff46454d660a30a0190536d678a6ea6.png"));
+    
+    this.thumbnailer = new Thumbnailer(this.tmpdir.path);
+
+
   });
-  it("remove files",function(done){
-    thumbnailer.clean(null,function(err){
-      expect(err).to.not.exist;
-      fs.exists(path.join(dir,"normal/02f03513839ac37ce95086b838b50fef.png"),function(exist){
-        expect(exist).to.be.false;
-        done();
-      })
-    })
+  afterEach(function(){
+    this.tmpdir.cleanup();
+  })
+  
+  it("remove old files", async function(){
+    expect( await this.thumbnailer.clean(null)).to.not.throw;
+    expect(await exists(path.join(this.tmpdir.path,"normal/02f03513839ac37ce95086b838b50fef.png"))).to.be.false;
+    expect(await exists(path.join(this.tmpdir.path,"normal/7ff46454d660a30a0190536d678a6ea6.png"))).to.be.false;
+
+  })
+
+  it("can be limited", async function(){
+    expect( await this.thumbnailer.clean({count:1})).to.not.throw;
+    expect(await exists(path.join(this.tmpdir.path,"normal/02f03513839ac37ce95086b838b50fef.png"))).to.be.false;
+    expect(await exists(path.join(this.tmpdir.path,"normal/7ff46454d660a30a0190536d678a6ea6.png"))).to.be.true;
+  })
+  it("work when files < limit", async function(){
+    expect( await this.thumbnailer.clean({count:10})).to.not.throw;
+    expect(await exists(path.join(this.tmpdir.path,"normal/02f03513839ac37ce95086b838b50fef.png"))).to.be.false;
+    expect(await exists(path.join(this.tmpdir.path,"normal/7ff46454d660a30a0190536d678a6ea6.png"))).to.be.false;
   })
 });

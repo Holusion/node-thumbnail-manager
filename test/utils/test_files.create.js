@@ -5,7 +5,7 @@ describe("files.exists",function(){
   var testfile =__dirname+"/../fixtures/sources/wallpaper.svg"
   var thumbpath =__dirname+"/../fixtures/thumbnails/normal";
   before(function(done){
-    fs.utimes(testfile,NaN,1418500379,done); //set mtime to Sat Dec 13 2014 20:52:59 GMT+0100 (CET)
+    fs.utimes(testfile,1418500379,1418500379,done); //set mtime to Sat Dec 13 2014 20:52:59 GMT+0100 (CET)
   });
   it("returns thumbnail full path",function(done){
     var mfiles = {
