@@ -2,7 +2,7 @@
 
 A Thumbnail Manager in native javascript
 
-[![Build Status](https://travis-ci.org/Holusion/node-thumbnail-manager.svg?branch=master)](https://travis-ci.org/Holusion/node-thumbnail-manager)[![Test Coverage](https://codeclimate.com/github/Holusion/node-thumbnail-manager/badges/coverage.svg)](https://codeclimate.com/github/Holusion/node-thumbnail-manager/coverage)
+[![](https://github.com/holusion/node-thumbnail-manager/workflows/.github/npmpublish.yml/badge.svg)](https://github.com/Holusion/node-thumbnail-manager/actions)
 
 **thumbnail-manager** is a simple yet extensible solution to create and manage thumbnails using freedesktop's [Thumbnail Managing Standard](http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html).
 
