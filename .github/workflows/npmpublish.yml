@@ -2,7 +2,7 @@ name: Node.js Package
 
 on:
   release:
-    types: [created]
+    types: [created, published]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@your-github-username'
+          scope: '@holusion'
       - run: npm ci
       - run: npm publish
         env:
