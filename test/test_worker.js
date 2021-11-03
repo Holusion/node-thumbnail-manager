@@ -1,4 +1,9 @@
-var Worker = require("../lib/Worker");
+'use strict';
+const fs = require("fs/promises");
+const {constants:{R_OK}} = require('fs');
+const path = require("path");
+const os = require("os");
+const Worker = require("../lib/Worker");
 
 describe("Worker",function(){
   beforeEach(function(){
@@ -30,5 +35,22 @@ describe("Worker",function(){
       expect(e.killed).to.be.true;
       done();
     });
+  });
+  it("throws if executable is not found", async function(){
+    await expect(this.worker.start("foo")).to.be.rejected;
+  });
+
+  it("inherits PATH", async function(){
+    let dir = await fs.mkdtemp(path.join(os.tmpdir(), "worker-path-"));
+    let originalPath = process.env["PATH"];
+    try{
+      await fs.writeFile(path.join(dir, "foo"), `#!/bin/sh\necho "foo"\n`);
+      await fs.chmod(path.join(dir, "foo"), 0o755);
+      process.env["PATH"] = dir+":"+originalPath;
+      await expect(this.worker.start("foo")).to.be.fulfilled;
+    }finally{
+      await fs.rm(dir, {recursive: true});
+      process.env["PATH"] = originalPath;
+    }
   });
 });
