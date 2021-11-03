@@ -14,16 +14,14 @@
     "thumbs"
   ],
   "dependencies": {
-    "xdg-apps": "^0.1.2",
+    "xdg-apps": "^1.1.0",
     "xdg-basedir": "^4.0.0",
     "png-chunks-extract": "^1.0.0",
-    "png-chunk-text": "^1.0.0",
-    "mkdirp": "^0.5.1"
+    "png-chunk-text": "^1.0.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
-    "mocha": "^6.1.4",
-    "tmp-promise": "^1.0.5"
+    "mocha": "^6.1.4"
   }
 }
