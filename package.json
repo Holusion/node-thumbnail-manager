@@ -2,6 +2,7 @@
   "name": "thumbnail-manager",
   "version": "1.1.0",
   "main": "lib/index.js",
+  "types": "types/index.d.ts",
   "repository": "https://github.com/Holusion/node-thumbnail-manager",
   "scripts": {
     "test": "mocha"
@@ -14,13 +15,13 @@
     "thumbs"
   ],
   "dependencies": {
-    "xdg-apps": "^1.1.0",
+    "png-chunk-text": "^1.0.0",
     "png-chunks-extract": "^1.0.0",
-    "png-chunk-text": "^1.0.0"
+    "xdg-apps": "^1.1.0"
   },
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
-    "mocha": "^6.1.4"
+    "mocha": "^10.4.0"
   }
 }
